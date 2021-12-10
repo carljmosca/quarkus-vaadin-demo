@@ -21,8 +21,8 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: ghcr.io
-        username: ${{ secrets.CR_PAT_USERNAME }}}
-        password: ${{ secrets.CR_PAT }}    
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }} 
     - name: Configure git
       run: |
         git config --global committer.email "noreply@github.com"
