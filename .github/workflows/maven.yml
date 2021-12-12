@@ -32,4 +32,4 @@ jobs:
     - name: Checkout master branch
       run: git checkout master
     - name: build
-      run: mvn package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true
+      run: mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true

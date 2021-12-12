@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.carljmosca</groupId>
   <artifactId>quarkus-vaadin-demo</artifactId>
@@ -29,9 +30,9 @@
       <dependency>
         <groupId>com.vaadin</groupId>
         <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
         <type>pom</type>
         <scope>import</scope>
-        <version>${vaadin.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -63,6 +64,10 @@
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-core-jandex</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-container-image-jib</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -125,24 +130,12 @@
   </build>
   <profiles>
     <profile>
-      <!-- Vaadin Production mode is activated using -Pproduction -->
       <id>production</id>
       <activation>
         <property>
           <name>production</name>
         </property>
       </activation>
-      <properties>
-        <vaadin.productionMode>true</vaadin.productionMode>
-      </properties>
-
-      <dependencies>
-        <dependency>
-          <groupId>com.vaadin</groupId>
-          <artifactId>flow-server-production-mode</artifactId>
-        </dependency>
-      </dependencies>
-
       <build>
         <plugins>
           <plugin>
@@ -150,10 +143,10 @@
             <artifactId>vaadin-maven-plugin</artifactId>
             <executions>
               <execution>
+                <phase>compile</phase>
                 <goals>
                   <goal>build-frontend</goal>
                 </goals>
-                <phase>compile</phase>
               </execution>
             </executions>
             <configuration>
@@ -162,6 +155,15 @@
           </plugin>
         </plugins>
       </build>
+      <properties>
+        <vaadin.productionMode>true</vaadin.productionMode>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.vaadin</groupId>
+          <artifactId>flow-server-production-mode</artifactId>
+        </dependency>
+      </dependencies>
     </profile>
     <profile>
       <id>native</id>
@@ -170,13 +172,6 @@
           <name>native</name>
         </property>
       </activation>
-
-      <dependencies>
-        <dependency>
-          <groupId>com.vaadin</groupId>
-          <artifactId>flow-server-production-mode</artifactId>
-        </dependency>
-      </dependencies>
       <build>
         <plugins>
           <plugin>
@@ -184,10 +179,10 @@
             <artifactId>vaadin-maven-plugin</artifactId>
             <executions>
               <execution>
+                <phase>compile</phase>
                 <goals>
                   <goal>build-frontend</goal>
                 </goals>
-                <phase>compile</phase>
               </execution>
             </executions>
             <configuration>
@@ -216,9 +211,15 @@
         </plugins>
       </build>
       <properties>
-        <quarkus.package.type>native</quarkus.package.type>
         <vaadin.productionMode>true</vaadin.productionMode>
+        <quarkus.package.type>native</quarkus.package.type>
       </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.vaadin</groupId>
+          <artifactId>flow-server-production-mode</artifactId>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
 </project>
