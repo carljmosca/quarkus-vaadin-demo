@@ -47,3 +47,7 @@ You can then execute your native executable with: `./target/quarkus-vaadin-demo-
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
+## Openshift
+
+./mvnw -Pproduction clean package -Dquarkus.kubernetes.deploy=true -Dquarkus.openshift.route.expose=true
+
